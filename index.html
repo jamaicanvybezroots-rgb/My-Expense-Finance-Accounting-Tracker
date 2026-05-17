@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Wealth Studio Studio</title>
+    <title>Personal Wealth Studio Pro</title>
+    <link rel="manifest" href="manifest.json">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -159,7 +160,6 @@
     </div>
 
     <script>
-        // Restructured core categories to place Income directly at the top
         const coreCategories = [
             "Income", "Housing/Rent", "Utilities", "Groceries", 
             "Dining Out", "Transportation", "Entertainment", 
@@ -179,13 +179,11 @@
             selectElement.innerHTML = '';
             
             coreCategories.forEach(cat => {
-                // Generate Form Dropdowns
                 let opt = document.createElement('option');
                 opt.value = cat;
                 opt.innerText = cat === "Income" ? "💰 Income / Loans Desk" : `📁 ${cat}`;
                 selectElement.appendChild(opt);
 
-                // Generate Left Side Tab Navigation links
                 let btn = document.createElement('button');
                 btn.id = `tab-${cat.replace(/[^a-zA-Z0-9]/g, '')}`;
                 btn.className = "w-full flex items-center px-4 py-2.5 text-xs font-bold text-gray-400 hover:text-gray-200 hover:bg-gray-800/60 rounded-xl transition duration-150 pl-6 border-l-2 border-transparent";
@@ -196,7 +194,6 @@
             toggleFormFields();
         }
 
-        // Alters the Transaction Flag Type Dropdown instantly depending on selected Category
         function toggleFormFields() {
             const categorySelection = document.getElementById('txCategory').value;
             const flagDropdown = document.getElementById('txType');
@@ -224,7 +221,6 @@
             });
             document.getElementById('tab-main').className = "w-full flex items-center px-4 py-3 text-sm font-semibold rounded-xl text-gray-400 hover:bg-gray-800/80 transition duration-150 mb-4";
 
-            // Control display blocks for metrics panels
             document.getElementById('balanceSheetPanel').classList.add('hidden');
             document.getElementById('chartsPanel').classList.remove('hidden');
 
@@ -272,7 +268,6 @@
             document.getElementById('statOutflows').innerText = `$${totalOut.toFixed(2)}`;
             document.getElementById('statNet').innerText = `$${(totalIn - totalOut).toFixed(2)}`;
 
-            // Populate the newly configured Income Balance Sheet variables
             document.getElementById('bsIncomeVal').innerText = `$${bsIncomeAccum.toFixed(2)}`;
             document.getElementById('bsLoansInjected').innerText = `$${bsLoansAccum.toFixed(2)}`;
             document.getElementById('bsTotalAssets').innerText = `$${(bsIncomeAccum + bsLoansAccum).toFixed(2)}`;
@@ -384,7 +379,6 @@
                 records.forEach(r => {
                     let d = r.description || "Uncategorized Row";
                     if (!descMap[d]) descMap[d] = 0;
-                    // Map inflows for income visualization, outflows for spending tabs
                     descMap[d] += currentActiveTab === "Income" ? parseFloat(r.inflow || 0) : parseFloat(r.outflow || 0);
                 });
 
@@ -441,6 +435,8 @@
             document.getElementById('formTitle').innerText = "Modify Ledger Line";
             document.getElementById('submitBtn').innerText = "Execute Modification";
             document.getElementById('cancelBtn').classList.remove('hidden');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function cancelEdit() {
