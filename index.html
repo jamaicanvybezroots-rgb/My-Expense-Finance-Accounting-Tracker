@@ -67,7 +67,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Description Indexer</label>
-                        <input type="text" id="txDescription" placeholder="e.g. Monthly salary payout" required class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-gray-100 focus:outline-none focus:border-emerald-500 font-medium">
+                        <input type="text" id="txDescription" placeholder="e.g. Principal loan payoff tier 1" required class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-gray-100 focus:outline-none focus:border-emerald-500 font-medium">
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Receipt / Ref # (Optional)</label>
@@ -204,6 +204,7 @@
                 flagDropdown.innerHTML = `
                     <option value="Regular Income">Regular Income (Salary / Gains)</option>
                     <option value="Active Loan">Active Loan (Borrowed Capital)</option>
+                    <option value="Loan Repayment">Loan Repayment (Debt Reduction Outflow)</option>
                 `;
             } else {
                 flagDropdown.innerHTML = `
@@ -256,6 +257,8 @@
                         bsIncomeAccum += parseFloat(t.inflow || 0);
                     } else if (t.type === "Active Loan") {
                         bsLoansAccum += parseFloat(t.inflow || 0);
+                    } else if (t.type === "Loan Repayment") {
+                        bsRepaymentsAccum += parseFloat(t.outflow || 0);
                     }
                 } else {
                     if (t.type === "Repayment") {
@@ -326,7 +329,7 @@
                 let flagStyle = "text-gray-500";
                 if(item.type === "Active Loan") flagStyle = "text-yellow-500 font-bold bg-yellow-500/10 px-1.5 py-0.5 rounded border border-yellow-500/20";
                 if(item.type === "Regular Income") flagStyle = "text-green-400 font-bold bg-green-500/10 px-1.5 py-0.5 rounded border border-green-500/20";
-                if(item.type === "Repayment") flagStyle = "text-orange-400 font-bold bg-orange-500/10 px-1.5 py-0.5 rounded border border-orange-500/20";
+                if(item.type === "Repayment" || item.type === "Loan Repayment") flagStyle = "text-orange-400 font-bold bg-orange-500/10 px-1.5 py-0.5 rounded border border-orange-500/20";
 
                 tr.innerHTML = `
                     <td class="p-3 text-gray-300 font-medium whitespace-nowrap">${item.date}</td>
